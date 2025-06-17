@@ -1,4 +1,4 @@
-package anemiainfantil;
+    package anemiainfantil;
 
 import java.io.Serializable;
 
@@ -8,7 +8,10 @@ public class Ninio extends Persona implements Serializable {
     private int edadMeses;
     private double hemoglobina;
    
-
+public Ninio()
+{
+    super(); //Constructor vacío necesario para que la deserialización (lectura desde archivo binario) funcione. CLAVE 
+}
     public Ninio(String nombre, int edadMeses, double hemoglobina, String dni) {
         super(nombre, dni);
         this.edadMeses = edadMeses;
