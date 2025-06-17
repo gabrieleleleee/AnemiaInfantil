@@ -1,29 +1,52 @@
 package anemiainfantil;
 
-public class Ninio {
-    private String nombre;
+import java.io.Serializable;
+
+public class Ninio extends Persona implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
     private int edadMeses;
     private double hemoglobina;
-    private String dni;
+   
 
     public Ninio(String nombre, int edadMeses, double hemoglobina, String dni) {
-        this.nombre = nombre;
+        super(nombre, dni);
         this.edadMeses = edadMeses;
-        this.hemoglobina = hemoglobina;
-        this.dni = dni;
+        this.hemoglobina = hemoglobina;  
+    }
+    public int getEdadMeses()
+    {  
+    return edadMeses; 
+    } 
+    public double getHemoglobina() 
+    {
+        return hemoglobina; 
     }
 
-    public String getNombre() { return nombre; }
-    public int getEdadMeses() { return edadMeses; }
-    public double getHemoglobina() { return hemoglobina; }
-    public String getDni() { return dni; }
+    public void setEdadMeses(int edadMeses) {
+        this.edadMeses = edadMeses;
+    }
 
-    public boolean tieneRiesgoAnemia() {
+    public void setHemoglobina(double hemoglobina) {
+        this.hemoglobina = hemoglobina;
+    }
+    
+    public boolean tieneRiesgoAnemia() 
+    {
         return hemoglobina < 11.0;
     }
 
     public String evaluarRiesgoAnemia() {
-        return tieneRiesgoAnemia() ? "Riesgo de anemia" : "Hemoglobina normal";
+       if (tieneRiesgoAnemia())
+       {
+           System.out.println("Riesgo de anemia detectado");
+           return "Riesgo de anemia detectado";
+       }
+       else
+       {
+           System.out.println("Nivel de hemoglobina normal");
+           return "Hemoglobina normal";
+       }
     }
 
     public void mostrarInformacion() {
@@ -31,7 +54,15 @@ public class Ninio {
         System.out.println("Edad: " + edadMeses + " meses");
         System.out.println("Hemoglobina: " + hemoglobina + " g/dL");
         System.out.println("DNI: " + dni);
-        System.out.println(tieneRiesgoAnemia() ? " Riesgo de anemia detectado." : " Nivel de hemoglobina normal.");
+        if (tieneRiesgoAnemia())
+                {
+                    System.out.println("Riesgo de anemia detectado");
+                }
+        else
+        {
+            System.out.println("Nivel de hemoglobina normal");
+            
+        }
     }
 
     @Override
@@ -39,8 +70,5 @@ public class Ninio {
         return nombre + "," + edadMeses + "," + hemoglobina + "," + dni;
     }
 
-    public static Ninio fromString(String linea) {
-        String[] partes = linea.split(",");
-        return new Ninio(partes[0], Integer.parseInt(partes[1]), Double.parseDouble(partes[2]), partes[3]);
-    }
+    
 }

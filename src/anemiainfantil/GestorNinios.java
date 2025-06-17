@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class GestorNinios {
     private ArrayList<Ninio> listaNinios;
-    private final String ARCHIVO = "ninios.txt";
+    private final String ARCHIVO = "ninios.bin";
 
     public GestorNinios() {
         listaNinios = new ArrayList<>();
@@ -47,25 +47,21 @@ public class GestorNinios {
     }
 
     private void guardarEnArchivo() {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(ARCHIVO))) {
-            for (Ninio n : listaNinios) {
-                writer.println(n.toString());
-            }
-        } catch (IOException e) {
-            System.out.println("Error al guardar datos: " + e.getMessage());
-        }
+    try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ARCHIVO))) {
+        oos.writeObject(listaNinios);
+    } catch (IOException e) {
+        System.out.println("Error al guardar datos: " + e.getMessage());
     }
-
+}
+@SuppressWarnings("unchecked")
     private void cargarDesdeArchivo() {
         File archivo = new File(ARCHIVO);
         if (!archivo.exists()) return;
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(ARCHIVO))) {
-            String linea;
-            while ((linea = reader.readLine()) != null) {
-                listaNinios.add(Ninio.fromString(linea));
-            }
-        } catch (IOException e) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(ARCHIVO))) 
+        {
+           listaNinios = (ArrayList<Ninio>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
             System.out.println("Error al cargar datos: " + e.getMessage());
         }
     }
