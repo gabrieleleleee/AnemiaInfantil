@@ -12,6 +12,7 @@ public class GestorNinios {
     cargarDesdeArchivo();
     System.out.println(" Constructor ejecutado");
 }
+    
    public boolean agregarNinio(Ninio n) {
     for (Ninio existente : listaNinios) {
         if (existente.getDni().equals(n.getDni())) return false;
@@ -44,6 +45,20 @@ public class GestorNinios {
             if (n.getDni().equalsIgnoreCase(dni)) return n;
         }
         return null;
+    }
+    public void eliminarNinio(String dni)
+    {
+        for (int i=0; i < listaNinios.size(); i++)
+        {
+            if(listaNinios.get(i).getDni().equalsIgnoreCase(dni))
+            {
+                listaNinios.remove(i);
+                guardarEnArchivo(); // ACTUALIZA LOS DATOS
+                System.out.println("Paciente atendido. ");
+                return;
+            }
+        }
+        System.out.println("NO SE ENCUENTRA ESE PACIENTE, DNI INCORRECTO");
     }
 
     private void guardarEnArchivo() {

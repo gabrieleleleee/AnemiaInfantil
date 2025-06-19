@@ -7,14 +7,15 @@ public class AnemiaApp {
     private static GestorNinios gestor = new GestorNinios();
 
     public static void main(String[] args) {
-        int opcion;
+        int opcion;      
         do {
             System.out.println("----- Sistema de Registro de Anemia Infantil -----");
             System.out.println("1. Registrar niño");
             System.out.println("2. Ver historial");
             System.out.println("3. Buscar niño por nombre");
             System.out.println("4. Buscar niño por DNI");
-            System.out.println("5. Salir");
+            System.out.println("5. Atender Paciente: ");
+            System.out.println("6. Salir");
             System.out.print("Elige una opción: ");
 
             opcion = scanner.nextInt();
@@ -25,10 +26,11 @@ public class AnemiaApp {
                 case 2: mostrarHistorial(); break;
                 case 3: buscarNinioPorNombre(); break;
                 case 4: buscarNinioPorDni(); break;
-                case 5: System.out.println("Saliendo del programa..."); break;
+                case 5: atender(); break;
+                case 6: System.out.println("Saliendo del programa..."); break;
                 default: System.out.println("Opción inválida.");
             }
-        } while (opcion != 5);
+        } while (opcion != 6);
     }
 
     private static void registrarNinio() {
@@ -89,4 +91,33 @@ public class AnemiaApp {
             System.out.println("No se encontró ningún niño/a con ese DNI.");
         }
     }
+    private static void atender()
+    {
+        System.out.println("Ingrese dni para ser atendido: ");
+        String dni = scanner.nextLine();
+        Ninio n= gestor.buscarPorDni(dni);
+        if(n != null)
+        {
+            System.out.println("REPORTE: ");
+            n.mostrarInformacion();
+            if(n.tieneRiesgoAnemia())
+            {
+                System.out.println("ESTADO: RIESGO ANEMIA, dirijase al hematólogo");
+                
+            }
+            else
+            {
+                System.out.println("ESTADO: SIN RIESGO DE ANEMIA, SANO");
+                
+            }
+            System.out.println("FECHA DE ATENCIÓN: " + java.time.LocalDate.now());
+            gestor.eliminarNinio(dni);
+            
+        }
+        else
+        {
+            System.out.println("DNI INCORRECTO. ");
+        }
+    }
+   
 }
